@@ -7,3 +7,4 @@
 */
 
 "pageTitle" = "Movies";
+"loadingMessage" = "Loading movies";

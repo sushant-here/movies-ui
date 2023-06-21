@@ -16,6 +16,7 @@ class Resolver{
 
     init() {
 //        add(type: Protocol.self, { return Implementation() })
+        add(type: MoviesService.self, { return TheMovieDBService() })
     }
 
     func add<Component>(type: Component.Type, _ factory: @escaping () -> Component) {
