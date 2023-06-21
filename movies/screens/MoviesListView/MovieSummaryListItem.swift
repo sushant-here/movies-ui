@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct MovieSummaryListItem: View {
 
@@ -14,15 +15,12 @@ struct MovieSummaryListItem: View {
     var body: some View {
         ZStack {
             HStack(alignment: .top) {
-                AsyncImage(url: URL(string: "\(TheMovieDB.image(width: 200).prefix)\(summary.posterPath)")) { phase in
-                    phase.image?
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .clipShape(RoundedRectangle(cornerRadius: 5))
-                }
-                .frame(width: 60, height: 90)
-                .border(.secondary)
-                .clipped()
+                KFImage(URL(string: "\(TheMovieDB.image(width: 200).prefix)\(summary.posterPath)")!)
+                    .resizable()
+                    .cacheMemoryOnly() //makes dev abit easier
+                    .frame(width: 60, height: 90)
+                    .border(.secondary)
+                    .clipped()
 
                 VStack (alignment: .leading) {
                     Text(summary.title)
@@ -60,15 +58,12 @@ struct MovieSummaryListItem: View {
             .padding(10)
         }
         .background(
-            AsyncImage(url: URL(string: "\(TheMovieDB.image(width: 200).prefix)\(summary.backdropPath)")) { phase in
-                phase.image?
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .clipShape(RoundedRectangle(cornerRadius: 5))
-                    .opacity(0.2)
-            }
-            .scaledToFill()
-            .edgesIgnoringSafeArea(.all)
+            KFImage(URL(string: "\(TheMovieDB.image(width: 200).prefix)\(summary.backdropPath)")!)
+                .resizable()
+                .cacheMemoryOnly() //makes dev abit easier
+                .scaledToFill()
+                .edgesIgnoringSafeArea(.all)
+                .opacity(0.2)
         )
         .clipped()
     }
