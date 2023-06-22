@@ -9,7 +9,11 @@ import SwiftUI
 import Kingfisher
 
 struct MovieDetailsView<Model>: View where Model: MovieDetailsViewModel {
-    @ObservedObject var viewModel: Model
+    @ObservedObject
+    var viewModel: Model
+
+    @Environment(\.openURL)
+    private var openURL
 
     var body: some View {
         ScrollView {
@@ -44,18 +48,15 @@ struct MovieDetailsView<Model>: View where Model: MovieDetailsViewModel {
                     }
 
                     Spacer().frame(height: 10)
-                    VStack(alignment: .leading) {
-                        HStack {
-                            Text("<<Release Date>>:")
-                            Text("dd/mm/yy")
-                        }
-                        HStack {
-                            Text("<<Revenue>>:")
-                            Text("$##,###,###")
-                        }
-                        HStack {
-                            Text("<<Runtime>>:")
-                            Text("200 min#")
+                    Grid() {
+                        ForEach(viewModel.factoids) { fact in
+                            GridRow (alignment: .top) {
+                                Text("\(fact.label):")
+                                    .gridColumnAlignment(.trailing)
+                                Text(fact.value)
+                                    .gridColumnAlignment(.leading)
+                            }
+                            .padding(1)
                         }
                     }
                     .font(.caption)
@@ -65,12 +66,15 @@ struct MovieDetailsView<Model>: View where Model: MovieDetailsViewModel {
                         Spacer().frame(height: 10)
                         Text(overview)
                             .font(.caption)
+                            .foregroundColor(.gray)
                     }
 
                     Spacer().frame(height: 10)
                     Button(action: openIMDB) {
-                        Label("<<imdb>>", systemImage: "globe")
+                        Label(R.string.movieDetailsView.openInIMDB(), systemImage: "safari.fill")
                     }
+                    .controlSize(.large)
+                    .buttonStyle(.bordered)
                 }
                 .padding()
             }
@@ -94,7 +98,12 @@ struct MovieDetailsView<Model>: View where Model: MovieDetailsViewModel {
     }
 
     func openIMDB() {
-        print("IMDB Action")
+        print("IMDB Action triggered")
+        guard let url = viewModel.imdbUrl else {
+            print("No IMDB URL available")
+            return
+        }
+        openURL(url)
     }
 }
 
@@ -123,6 +132,14 @@ class MovieDetailsViewModel_preview: MovieDetailsViewModel {
         productionCompanies: [ ProductionCompany(id: 1, name: "Production A"), ProductionCompany(id: 2, name: "Production B") ],
         productionCountries: [ ProductionCountry(iso3166Code: "123", name: "Apples"), ProductionCountry(iso3166Code: "456", name: "Bananas") ],
         imdbId: "tt10366206")
+
+    var factoids: [MovieFact] = [
+        MovieFact(label: "A", value: "B\nasdf"),
+        MovieFact(label: "C", value: "D"),
+        MovieFact(label: "E", value: "F")
+    ]
+
+    var imdbUrl: URL? = nil
 
     func onAppear() {}
 

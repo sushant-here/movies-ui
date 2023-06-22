@@ -8,3 +8,14 @@
 
 "pageTitle" = "Details";
 "loadingMessage" = "Loading movie";
+
+"releaseDate" = "Release date";
+"revenue" = "Revenue";
+"budget" = "Budget";
+"runtime" = "Runtime";
+
+"generes" = "Generes";
+"productionCompanies" = "Production companies";
+"productionCountries" = "Production countries";
+
+"openInIMDB" = "Open in IMDB";
