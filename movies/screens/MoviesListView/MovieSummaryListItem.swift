@@ -20,17 +20,19 @@ struct MovieSummaryListItem: View {
                     .cacheMemoryOnly() //makes dev abit easier
                     .frame(width: 60, height: 90)
                     .border(.secondary)
-                    .clipped()
 
                 VStack (alignment: .leading) {
-                    Text(summary.title)
-                        .font(.title2)
-                        .lineLimit(1)
+                    Group {
+                        Text(summary.title)
+                            .font(.title2)
+                            .lineLimit(1)
 
-                    Spacer()
-                    Text(summary.overview)
-                        .font(.caption)
-                        .lineLimit(2)
+                        Text(summary.overview)
+                            .font(.caption)
+                            .lineLimit(2)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+
                     Spacer()
 
                     HStack (spacing: 20){
