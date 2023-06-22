@@ -81,6 +81,7 @@ struct MovieDetailsResponse: Decodable {
         self.imdbId = imdbId
     }
 
+    /// Forced to implement for parding dates and urls
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.backdropPath = try container.decode(String.self, forKey: .backdropPath)
