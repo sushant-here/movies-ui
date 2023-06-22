@@ -9,4 +9,6 @@ import Combine
 
 protocol MoviesService {
     func loadPopularMovies() -> AnyPublisher<MovieListResponse, any Error>
+
+    func loadMovieDetails(id: Int) -> AnyPublisher<MovieDetailsResponse, any Error>
 }

@@ -65,7 +65,7 @@ struct MovieSummaryListItem: View {
                 .cacheMemoryOnly() //makes dev abit easier
                 .scaledToFill()
                 .edgesIgnoringSafeArea(.all)
-                .opacity(0.2)
+                .opacity(0.1)
         )
         .clipped()
     }

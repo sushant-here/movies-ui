@@ -20,8 +20,9 @@ enum TheMovieDB {
         }
     }
 }
-enum TheMovieDBEndpoint: String {
-    case movieList = "3/discover/movie"
+enum TheMovieDBEndpoint {
+    case movieList
+    case movieDetails(Int)
 
     var url: URL {
         let base = TheMovieDB.api.prefix
@@ -29,7 +30,9 @@ enum TheMovieDBEndpoint: String {
 
         switch self {
         case .movieList:
-            path = self.rawValue
+            path = "3/discover/movie"
+        case .movieDetails(let movieId):
+            path = String("3/movie/\(movieId)")
         }
 
         return URL(string: "\(base)\(path)")!
@@ -38,6 +41,8 @@ enum TheMovieDBEndpoint: String {
     var httpMethod: String {
         switch self {
         case .movieList:
+            return "GET"
+        case .movieDetails(_):
             return "GET"
         }
     }

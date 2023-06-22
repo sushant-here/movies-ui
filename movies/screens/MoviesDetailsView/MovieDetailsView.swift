@@ -18,10 +18,10 @@ struct MovieDetailsView<Model>: View where Model: MovieDetailsViewModel {
                     .controlSize(.large)
                     .foregroundColor(.accentColor)
                     .tint(.accentColor)
-            } else {
+            } else if let movie = viewModel.movie {
                 VStack(alignment: .leading) {
                     HStack(alignment: .top) {
-                        KFImage(URL(string: "https://image.tmdb.org/t/p/w500/vZloFAK7NmvMGKE7VkF5UHaz0I.jpg")!)
+                        KFImage(URL(string: "\(TheMovieDB.image(width: 200).prefix)\(movie.posterPath)")!)
                             .resizable()
                             .cacheMemoryOnly()
                             .frame(width: 100, height: 150)
@@ -29,11 +29,13 @@ struct MovieDetailsView<Model>: View where Model: MovieDetailsViewModel {
 
                         VStack (alignment: .leading) {
                             Group {
-                                Text("<<title>>")
+                                Text(movie.title)
                                     .font(.title)
 
-                                Text("<<tagline>>")
-                                    .font(.subheadline)
+                                if let tagline = movie.tagline {
+                                    Text(tagline)
+                                        .font(.subheadline)
+                                }
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
                         }
@@ -59,6 +61,11 @@ struct MovieDetailsView<Model>: View where Model: MovieDetailsViewModel {
                     .font(.caption)
                     .foregroundColor(.gray)
 
+                    if let overview = movie.overview {
+                        Spacer().frame(height: 10)
+                        Text(overview)
+                            .font(.caption)
+                    }
 
                     Spacer().frame(height: 10)
                     Button(action: openIMDB) {
@@ -72,16 +79,17 @@ struct MovieDetailsView<Model>: View where Model: MovieDetailsViewModel {
         .background(alignment: .center, content: {
             if viewModel.isLoading {
                 EmptyView()
-            } else {
-                KFImage(URL(string: "https://image.tmdb.org/t/p/w500/1inZm0xxXrpRfN0LxwE2TXzyLN6.jpg")!)
+            } else if let movie = viewModel.movie {
+                KFImage(URL(string: "\(TheMovieDB.image(width: 200).prefix)\(movie.backdropPath)")!)
                     .resizable()
+                    .fade(duration: 1)
                     .cacheMemoryOnly() //makes dev abit easier
                     .scaledToFill()
                     .edgesIgnoringSafeArea(.all)
-                    .opacity(0.2)
+                    .opacity(0.1)
             }
         })
-        .navigationBarTitle("<<Details>>", displayMode: .inline)
+        .navigationBarTitle(viewModel.pageTitle, displayMode: .inline)
         .onAppear(perform: viewModel.onAppear)
     }
 
@@ -98,6 +106,23 @@ class MovieDetailsViewModel_preview: MovieDetailsViewModel {
     var isLoading: Bool
 
     var loadingMessage: String
+
+    var movie: MovieDetails? = MovieDetails(
+        backdropPath: "/1inZm0xxXrpRfN0LxwE2TXzyLN6.jpg",
+        posterPath: "/vZloFAK7NmvMGKE7VkF5UHaz0I.jpg",
+        id: 603692,
+        title: "Super awesome sample movie title",
+        tagline: "In magical swift ui fashion",
+        runtime: 321,
+        releaseDate: Date.now,
+        overview: "With the price on his head ever increasing, John Wick uncovers a path to defeating The High Table. But before he can earn his freedom, Wick must face off against a new enemy with powerful alliances across the globe and forces that turn old friends into foes.",
+        genres: [ Genere(id: 1, name: "Action"), Genere(id: 2, name: "Bromomance") ],
+        homepage: URL(string: "https://tesla.com/")!,
+        budget: 41239875,
+        revenue: 9877654321,
+        productionCompanies: [ ProductionCompany(id: 1, name: "Production A"), ProductionCompany(id: 2, name: "Production B") ],
+        productionCountries: [ ProductionCountry(iso3166Code: "123", name: "Apples"), ProductionCountry(iso3166Code: "456", name: "Bananas") ],
+        imdbId: "tt10366206")
 
     func onAppear() {}
 

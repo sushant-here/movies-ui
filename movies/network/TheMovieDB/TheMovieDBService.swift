@@ -37,4 +37,20 @@ class TheMovieDBService: MoviesService {
 //        #endif
             .eraseToAnyPublisher()
     }
+
+    func loadMovieDetails(id: Int) -> AnyPublisher<MovieDetailsResponse, any Error> {
+        return URLSession.shared.dataTaskPublisher(for: TheMovieDBEndpoint.movieDetails(id).urlRequest(withBearer: accessToken))
+            .tryMap() { element -> Data in
+                guard let httpResponse = element.response as? HTTPURLResponse,
+                    httpResponse.statusCode == 200 else {
+                        throw URLError(.badServerResponse)
+                    }
+                return element.data
+                }
+            .decode(type: MovieDetailsResponse.self, decoder: JSONDecoder())
+//        #if targetEnvironment(simulator)
+//            .delay(for: 2, scheduler: RunLoop.main)
+//        #endif
+            .eraseToAnyPublisher()
+    }
 }

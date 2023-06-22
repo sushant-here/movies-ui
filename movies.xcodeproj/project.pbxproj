@@ -35,6 +35,7 @@
 		85CB7E3D2A42D6D400B35A4A /* MovieListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CB7E3C2A42D6D400B35A4A /* MovieListResponse.swift */; };
 		85CB7E412A42DEC900B35A4A /* MovieSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CB7E402A42DEC900B35A4A /* MovieSummary.swift */; };
 		85EF97BF2A43CA2C0062F091 /* MovieDetailsView.strings in Resources */ = {isa = PBXBuildFile; fileRef = 85EF97BE2A43CA2C0062F091 /* MovieDetailsView.strings */; };
+		85EF97C22A43DFF50062F091 /* MovieDetailsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EF97C12A43DFF50062F091 /* MovieDetailsResponse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +83,7 @@
 		85CB7E3C2A42D6D400B35A4A /* MovieListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListResponse.swift; sourceTree = "<group>"; };
 		85CB7E402A42DEC900B35A4A /* MovieSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSummary.swift; sourceTree = "<group>"; };
 		85EF97BE2A43CA2C0062F091 /* MovieDetailsView.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = MovieDetailsView.strings; sourceTree = "<group>"; };
+		85EF97C12A43DFF50062F091 /* MovieDetailsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -261,6 +263,7 @@
 			isa = PBXGroup;
 			children = (
 				85CB7E3C2A42D6D400B35A4A /* MovieListResponse.swift */,
+				85EF97C12A43DFF50062F091 /* MovieDetailsResponse.swift */,
 				85CB7E402A42DEC900B35A4A /* MovieSummary.swift */,
 			);
 			path = Models;
@@ -416,6 +419,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85EF97C22A43DFF50062F091 /* MovieDetailsResponse.swift in Sources */,
 				852445562A43C58A001A10CF /* MovieDetailsViewModel.swift in Sources */,
 				8524454A2A42FAF3001A10CF /* MovieSummaryListItem.swift in Sources */,
 				85CB7E092A42AB0600B35A4A /* Inject.swift in Sources */,
