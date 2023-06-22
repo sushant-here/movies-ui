@@ -88,6 +88,7 @@
 		85CB7E372A42CE9B00B35A4A /* TheMovieDB.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = TheMovieDB.plist; sourceTree = "<group>"; };
 		85CB7E3C2A42D6D400B35A4A /* MovieListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListResponse.swift; sourceTree = "<group>"; };
 		85CB7E402A42DEC900B35A4A /* MovieSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSummary.swift; sourceTree = "<group>"; };
+		85DF88FB2A44815F00768A40 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		85DF88FE2A4482BB00768A40 /* RSwiftValidationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSwiftValidationTests.swift; sourceTree = "<group>"; };
 		85E4F7C92A4474F90028F782 /* MovieDetailsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsViewModelTests.swift; sourceTree = "<group>"; };
 		85EF97BE2A43CA2C0062F091 /* MovieDetailsView.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = MovieDetailsView.strings; sourceTree = "<group>"; };
@@ -145,6 +146,7 @@
 		85CB7DCE2A42A94900B35A4A = {
 			isa = PBXGroup;
 			children = (
+				85DF88FB2A44815F00768A40 /* README.md */,
 				85EF97C52A4438AB0062F091 /* movies.xctestplan */,
 				85CB7DD92A42A94900B35A4A /* movies */,
 				85CB7DEA2A42A94A00B35A4A /* moviesTests */,
