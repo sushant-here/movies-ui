@@ -13,7 +13,7 @@ import Foundation
 
 final class MoviesListViewModelTests: QuickSpec {
     override class func spec() {
-        describe("MoviesListViewModelTests") {
+        describe("MoviesListViewModel") {
 
             var moviesMock: MoviesServiceMock!
             var viewModel: (any MoviesListViewModel)!
@@ -68,7 +68,7 @@ final class MoviesListViewModelTests: QuickSpec {
                     expect(viewModel.isLoading).to(beTrue())
                 }
 
-                it("loads summaries") {
+                it("loads correct number of times") {
                     var moviesMockCount = 0
                     expect(viewModelInternal.summaries.count).to(equal(0))
                     moviesMock.mockedPopularMovies = {
@@ -111,8 +111,16 @@ final class MoviesListViewModelTests: QuickSpec {
                     expect(movieSummary.backdropPath).toEventually(equal("/6l1SV3CWkbbe0DcAK1lyOG8aZ4K.jpg"))
                 }
 
+                it("contains correct backdrop url") {
+                    expect(movieSummary.backdropUrl).toEventually(equal(URL(string: "https://image.tmdb.org/t/p/w200/6l1SV3CWkbbe0DcAK1lyOG8aZ4K.jpg")))
+                }
+
                 it("contains correct poster") {
                     expect(movieSummary.posterPath).toEventually(equal("/fiVW06jE7z9YnO4trhaMEdclSiC.jpg"))
+                }
+
+                it("contains correct poster url") {
+                    expect(movieSummary.posterUrl).toEventually(equal(URL(string: "https://image.tmdb.org/t/p/w200/fiVW06jE7z9YnO4trhaMEdclSiC.jpg")))
                 }
 
                 it("contains correct title") {

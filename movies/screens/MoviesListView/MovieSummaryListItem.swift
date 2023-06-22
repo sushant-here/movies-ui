@@ -15,7 +15,7 @@ struct MovieSummaryListItem: View {
     var body: some View {
         ZStack {
             HStack(alignment: .top) {
-                KFImage(URL(string: "\(TheMovieDB.image(width: 200).prefix)\(summary.posterPath)")!)
+                KFImage(summary.posterUrl)
                     .resizable()
                     .cacheMemoryOnly() //makes dev abit easier
                     .frame(width: 60, height: 90)
@@ -23,44 +23,51 @@ struct MovieSummaryListItem: View {
 
                 VStack (alignment: .leading) {
                     Group {
-                        Text(summary.title)
-                            .font(.title2)
-                            .lineLimit(1)
+                        if let title = summary.title {
+                            Text(title)
+                                .font(.title2)
+                                .lineLimit(1)
+                        }
 
-                        Text(summary.overview)
-                            .font(.caption)
-                            .lineLimit(2)
+                        if let overview = summary.overview {
+                            Text(overview)
+                                .font(.caption)
+                                .lineLimit(2)
+
+                        }
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
 
                     Spacer()
 
                     HStack (spacing: 20){
-                        Label(summary.originalLanguage.uppercased(), systemImage: "globe")
-                            .imageScale(.small)
-                            .font(.caption2)
-                            .labelStyle(.titleAndIcon)
-                            .foregroundColor(.gray)
+                        if let language = summary.originalLanguage {
+                            Label(language.uppercased(), systemImage: "globe")
+                                .imageScale(.small)
+                                .labelStyle(.titleAndIcon)
+                        }
 
-                        Label("\(String(summary.voteCount))", systemImage: "checkmark")
-                            .imageScale(.small)
-                            .font(.caption2)
-                            .labelStyle(.titleAndIcon)
-                            .foregroundColor(.gray)
+                        if let voteCount = summary.voteCount {
+                            Label("\(String(voteCount))", systemImage: "checkmark")
+                                .imageScale(.small)
+                                .labelStyle(.titleAndIcon)
+                        }
 
                         Spacer()
 
-                        Text(summary.releaseDate, format: Date.FormatStyle().year().month().day())
-                            .font(.caption2)
-                            .foregroundColor(.gray)
+                        if let releaseDate = summary.releaseDate {
+                            Text(releaseDate, format: Date.FormatStyle().year().month().day())
+                        }
                     }
+                    .font(.caption2)
+                    .foregroundColor(.gray)
                 }
             }
             .frame(height: 90)
             .padding(10)
         }
         .background(
-            KFImage(URL(string: "\(TheMovieDB.image(width: 200).prefix)\(summary.backdropPath)")!)
+            KFImage(summary.backdropUrl)
                 .resizable()
                 .cacheMemoryOnly() //makes dev abit easier
                 .scaledToFill()

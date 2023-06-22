@@ -18,4 +18,12 @@ class TestData {
         return try! JSONDecoder().decode(MovieListResponse.self,
                                          from: data)
     }
+
+    static var movieDetails: MovieDetailsResponse {
+        let url = R.file.movie_603692Json.url()!
+        let data = try! Data(contentsOf: url)
+
+        return try! JSONDecoder().decode(MovieDetailsResponse.self,
+                                         from: data)
+    }
 }

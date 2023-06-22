@@ -10,15 +10,15 @@ import Foundation
 struct MovieSummary: Decodable {
     let id: Int
 
-    let backdropPath: String
-    let posterPath: String
+    let backdropPath: String?
+    let posterPath: String?
 
-    let title: String
-    let overview: String
+    let title: String?
+    let overview: String?
 
-    let originalLanguage: String
-    let voteCount: Int
-    let releaseDate: Date
+    let originalLanguage: String?
+    let voteCount: Int?
+    let releaseDate: Date?
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -35,13 +35,13 @@ struct MovieSummary: Decodable {
     }
 
     init(id: Int,
-         backdropPath: String,
-         posterPath: String,
-         title: String,
-         overview: String,
-         originalLanguage: String,
-         voteCount: Int,
-         releaseDate: Date) {
+         backdropPath: String?,
+         posterPath: String?,
+         title: String?,
+         overview: String?,
+         originalLanguage: String?,
+         voteCount: Int?,
+         releaseDate: Date?) {
         self.id = id
         self.backdropPath = backdropPath
         self.posterPath = posterPath
@@ -55,17 +55,31 @@ struct MovieSummary: Decodable {
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(Int.self, forKey: .id)
-        self.backdropPath = try container.decode(String.self, forKey: .backdropPath)
-        self.posterPath = try container.decode(String.self, forKey: .posterPath)
-        self.title = try container.decode(String.self, forKey: .title)
-        self.overview = try container.decode(String.self, forKey: .overview)
-        self.originalLanguage = try container.decode(String.self, forKey: .originalLanguage)
-        self.voteCount = try container.decode(Int.self, forKey: .voteCount)
+        self.backdropPath = try container.decodeIfPresent(String.self, forKey: .backdropPath)
+        self.posterPath = try container.decodeIfPresent(String.self, forKey: .posterPath)
+        self.title = try container.decodeIfPresent(String.self, forKey: .title)
+        self.overview = try container.decodeIfPresent(String.self, forKey: .overview)
+        self.originalLanguage = try container.decodeIfPresent(String.self, forKey: .originalLanguage)
+        self.voteCount = try container.decodeIfPresent(Int.self, forKey: .voteCount)
 
-        let jsonReleaseDate = try container.decode(String.self, forKey: .releaseDate)
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        self.releaseDate = dateFormatter.date(from: jsonReleaseDate)!
+        if let jsonReleaseDate = try container.decodeIfPresent(String.self, forKey: .releaseDate) {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            self.releaseDate = dateFormatter.date(from: jsonReleaseDate)!
+        } else {
+            self.releaseDate = nil
+        }
+    }
+}
+
+extension MovieSummary {
+    var backdropUrl: URL? {
+        guard let backdropPath = backdropPath else { return nil }
+        return URL(string: "\(TheMovieDB.image(width: 200).prefix)\(backdropPath)")
+    }
+    var posterUrl: URL? {
+        guard let posterPath = posterPath else { return nil }
+        return URL(string: "\(TheMovieDB.image(width: 200).prefix)\(posterPath)")
     }
 }
 

@@ -16,7 +16,7 @@ enum TheMovieDB {
         case .api:
             return "https://api.themoviedb.org/"
         case .image(let width):
-            return "https://image.tmdb.org/t/p/w\(width)/"
+            return "https://image.tmdb.org/t/p/w\(width)"
         }
     }
 }
