@@ -142,8 +142,8 @@ final class MoviesListViewModelTests: QuickSpec {
                 it("contains correct releaseDate") {
                     let dateFormat = DateFormatter()
                     dateFormat.dateFormat = "yyyy-MM-dd"
-                    expect(dateFormat.string(from: movieSummary.releaseDate)).to(equal("2023-05-17"))
                     expect(dateFormat.date(from: "2023-05-17")).to(equal(movieSummary.releaseDate))
+                    expect(dateFormat.string(from: movieSummary.releaseDate!)).to(equal("2023-05-17"))
                 }
             }
         }
