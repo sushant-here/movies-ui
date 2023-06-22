@@ -93,6 +93,7 @@ final class MoviesListViewModelTests: QuickSpec {
                     viewModel.onAppear()
                     waitUntil(timeout: .seconds(2)) { done in
                         DispatchQueue.main.async {
+                            // I really hate that we need to do this. We have no other way to know that the data has loaded.
                             while viewModel.summaries.count == 0 {
                                 Thread.sleep(forTimeInterval: 0.1)
                             }

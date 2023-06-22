@@ -18,6 +18,7 @@ final class MovieDetailsViewModelTests: QuickSpec {
             var moviesMock: MoviesServiceMock!
             var viewModel: (any MovieDetailsViewModel)!
             var viewModelInternal: MovieDetailsViewModelImpl!
+            var cancellable = Set<AnyCancellable> ()
 
             beforeEach {
                 moviesMock = MoviesServiceMock()
@@ -114,13 +115,9 @@ final class MovieDetailsViewModelTests: QuickSpec {
                     }
                     viewModel.onAppear()
                     waitUntil(timeout: .seconds(2)) { done in
-                        DispatchQueue.main.async {
-                            // uggh - i hate that i have to do this.
-                            while viewModel.movieTitle == nil {
-                                Thread.sleep(forTimeInterval: 0.1)
-                            }
-                            if viewModel.movieTitle != nil { done() }
-                        }
+                        viewModel.movieTitle.publisher.sink { _ in
+                            done()
+                        }.store(in: &cancellable)
                     }
                 }
 
