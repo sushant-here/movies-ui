@@ -20,12 +20,16 @@ struct MoviesListView<Model>: View where Model: MoviesListViewModel {
             }
 
             List(viewModel.summaries, id: \.id) { movie in
-                NavigationLink(destination: MovieDetailsView(viewModel: MovieDetailsViewModelImpl(movieId: movie.id ))) {
+                ZStack {
+                    // Uggh i feel so dirty... We have to wrap in zstack and make nav link opaque so that we can hide the navigation chevron... https://stackoverflow.com/a/59832389
                     MovieSummaryListItem(summary: movie)
+                    NavigationLink(destination: MovieDetailsView(viewModel: MovieDetailsViewModelImpl(movieId: movie.id ))) {
+                        EmptyView()
+                    }
+                    .opacity(0)
+                    .buttonStyle(.plain)
                 }
-                .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 15))
-                .accessibilityLabel(movie.title)
-                //.listRowSeparator(.hidden)
+                .listRowInsets(EdgeInsets())
             }
             .listStyle(.inset)
 
