@@ -2,7 +2,7 @@
 //  MoviesListView.swift
 //  movies
 //
-//  Created by Sushant Verma on 21/6/2023.
+//  Created by Sushant Verma on 22/6/2023.
 //
 
 import SwiftUI
