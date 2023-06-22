@@ -7,16 +7,51 @@
 
 import SwiftUI
 
-struct MovieDetailsView: View {
-    let movieId: Int
+struct MovieDetailsView<Model>: View where Model: MovieDetailsViewModel {
+    @ObservedObject var viewModel: Model
 
     var body: some View {
-        Text("Hello, World!... \(movieId)")
+        VStack {
+            if viewModel.isLoading {
+                ProgressView(viewModel.loadingMessage)
+                    .controlSize(.large)
+                    .foregroundColor(.accentColor)
+                    .tint(.accentColor)
+            }
+        }
+        .navigationTitle(viewModel.pageTitle)
+        .onAppear(perform: viewModel.onAppear)
+    }
+}
+
+#if DEBUG
+
+class MovieDetailsViewModel_preview: MovieDetailsViewModel {
+    var pageTitle: String
+
+    var isLoading: Bool
+
+    var loadingMessage: String
+
+    func onAppear() {}
+
+    init(pageTitle: String = "Preview",
+         isLoading: Bool,
+         loadingMessage: String = "Loading message") {
+        self.pageTitle = pageTitle
+        self.isLoading = isLoading
+        self.loadingMessage = loadingMessage
     }
 }
 
 struct MovieDetailsView_Previews: PreviewProvider {
     static var previews: some View {
-        MovieDetailsView(movieId: 123)
+        NavigationView {
+            MovieDetailsView(viewModel: MovieDetailsViewModel_preview(isLoading: false))
+        }
+        NavigationView {
+            MovieDetailsView(viewModel: MovieDetailsViewModel_preview(isLoading: true))
+        }
     }
 }
+#endif

@@ -20,7 +20,7 @@ struct MoviesListView<Model>: View where Model: MoviesListViewModel {
             }
 
             List(viewModel.summaries, id: \.id) { movie in
-                NavigationLink(destination: MovieDetailsView(movieId: movie.id)) {
+                NavigationLink(destination: MovieDetailsView(viewModel: MovieDetailsViewModelImpl(movieId: movie.id ))) {
                     MovieSummaryListItem(summary: movie)
                 }
                 .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 15))
