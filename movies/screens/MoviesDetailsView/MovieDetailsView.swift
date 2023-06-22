@@ -22,21 +22,25 @@ struct MovieDetailsView<Model>: View where Model: MovieDetailsViewModel {
                     .controlSize(.large)
                     .foregroundColor(.accentColor)
                     .tint(.accentColor)
-            } else if let movie = viewModel.movie {
+            } else {
                 VStack(alignment: .leading) {
                     HStack(alignment: .top) {
-                        KFImage(URL(string: "\(TheMovieDB.image(width: 200).prefix)\(movie.posterPath)")!)
-                            .resizable()
-                            .cacheMemoryOnly()
-                            .frame(width: 100, height: 150)
-                            .border(.secondary)
+                        if let posterUrl = viewModel.posterUrl {
+                            KFImage(posterUrl)
+                                .resizable()
+                                .cacheMemoryOnly()
+                                .frame(width: 100, height: 150)
+                                .border(.secondary)
+                        }
 
                         VStack (alignment: .leading) {
                             Group {
-                                Text(movie.title)
-                                    .font(.title)
+                                if let title = viewModel.movieTitle {
+                                    Text(title)
+                                        .font(.title)
+                                }
 
-                                if let tagline = movie.tagline {
+                                if let tagline = viewModel.movieTagline {
                                     Text(tagline)
                                         .font(.subheadline)
                                 }
@@ -62,7 +66,7 @@ struct MovieDetailsView<Model>: View where Model: MovieDetailsViewModel {
                     .font(.caption)
                     .foregroundColor(.gray)
 
-                    if let overview = movie.overview {
+                    if let overview = viewModel.movieOverview {
                         Spacer().frame(height: 10)
                         Text(overview)
                             .font(.caption)
@@ -83,8 +87,8 @@ struct MovieDetailsView<Model>: View where Model: MovieDetailsViewModel {
         .background(alignment: .center, content: {
             if viewModel.isLoading {
                 EmptyView()
-            } else if let movie = viewModel.movie {
-                KFImage(URL(string: "\(TheMovieDB.image(width: 200).prefix)\(movie.backdropPath)")!)
+            } else if let backdropUrl = viewModel.backdropUrl {
+                KFImage(backdropUrl)
                     .resizable()
                     .fade(duration: 1)
                     .cacheMemoryOnly() //makes dev abit easier
@@ -110,33 +114,26 @@ struct MovieDetailsView<Model>: View where Model: MovieDetailsViewModel {
 #if DEBUG
 
 class MovieDetailsViewModel_preview: MovieDetailsViewModel {
+    var posterUrl: URL?
+
+    var backdropUrl: URL?
+
+    var movieTitle: String?
+
+    var movieTagline: String?
+
+    var movieOverview: String?
+
     var pageTitle: String
 
     var isLoading: Bool
 
     var loadingMessage: String
 
-    var movie: MovieDetails? = MovieDetails(
-        backdropPath: "/1inZm0xxXrpRfN0LxwE2TXzyLN6.jpg",
-        posterPath: "/vZloFAK7NmvMGKE7VkF5UHaz0I.jpg",
-        id: 603692,
-        title: "Super awesome sample movie title",
-        tagline: "In magical swift ui fashion",
-        runtime: 321,
-        releaseDate: Date.now,
-        overview: "With the price on his head ever increasing, John Wick uncovers a path to defeating The High Table. But before he can earn his freedom, Wick must face off against a new enemy with powerful alliances across the globe and forces that turn old friends into foes.",
-        genres: [ Genere(id: 1, name: "Action"), Genere(id: 2, name: "Bromomance") ],
-        homepage: URL(string: "https://tesla.com/")!,
-        budget: 41239875,
-        revenue: 9877654321,
-        productionCompanies: [ ProductionCompany(id: 1, name: "Production A"), ProductionCompany(id: 2, name: "Production B") ],
-        productionCountries: [ ProductionCountry(iso3166Code: "123", name: "Apples"), ProductionCountry(iso3166Code: "456", name: "Bananas") ],
-        imdbId: "tt10366206")
-
     var factoids: [MovieFact] = [
-        MovieFact(label: "A", value: "B\nasdf"),
-        MovieFact(label: "C", value: "D"),
-        MovieFact(label: "E", value: "F")
+        MovieFact(label: "Some Field", value: "this one has\ntwo lines"),
+        MovieFact(label: "Another Field", value: "Only one here"),
+        MovieFact(label: "Field", value: "And this is very very long as you can see so that its possible to see the text wrap to another line")
     ]
 
     var imdbUrl: URL? = nil
@@ -144,9 +141,19 @@ class MovieDetailsViewModel_preview: MovieDetailsViewModel {
     func onAppear() {}
 
     init(pageTitle: String = "Preview",
+         posterUrl: URL? = URL(string: "https://image.tmdb.org/t/p/w500/vZloFAK7NmvMGKE7VkF5UHaz0I.jpg"),
+         backdropUrl: URL? = URL(string: "https://image.tmdb.org/t/p/w500/1inZm0xxXrpRfN0LxwE2TXzyLN6.jpg"),
+         movieTitle: String? = "Super awesome sample movie title",
+         movieTagline: String? = "In magical swift ui fashion",
+         movieOverview: String? = "With the price on his head ever increasing, John Wick uncovers a path to defeating The High Table. But before he can earn his freedom, Wick must face off against a new enemy with powerful alliances across the globe and forces that turn old friends into foes.",
          isLoading: Bool,
          loadingMessage: String = "Loading message") {
         self.pageTitle = pageTitle
+        self.posterUrl = posterUrl
+        self.backdropUrl = backdropUrl
+        self.movieTitle = movieTitle
+        self.movieTagline = movieTagline
+        self.movieOverview = movieOverview
         self.isLoading = isLoading
         self.loadingMessage = loadingMessage
     }

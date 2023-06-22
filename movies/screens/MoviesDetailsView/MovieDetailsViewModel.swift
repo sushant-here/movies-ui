@@ -22,7 +22,12 @@ protocol MovieDetailsViewModel: ObservableObject {
     var isLoading: Bool { get }
     var loadingMessage: String { get }
 
-    var movie: MovieDetails? { get }
+    var posterUrl: URL? { get }
+    var backdropUrl: URL? { get }
+
+    var movieTitle: String? { get }
+    var movieTagline: String? { get }
+    var movieOverview: String? { get }
 
     var factoids: [MovieFact] { get }
 
@@ -61,6 +66,26 @@ class MovieDetailsViewModelImpl: MovieDetailsViewModel {
     @Published
     var factoids: [MovieFact] = []
 
+    var posterUrl: URL? {
+        guard let movie = movie else { return nil }
+        return URL(string: "\(TheMovieDB.image(width: 200).prefix)\(movie.posterPath)")
+    }
+
+    var backdropUrl: URL? {
+        guard let movie = movie else { return nil }
+        return URL(string: "\(TheMovieDB.image(width: 200).prefix)\(movie.backdropPath)")
+    }
+
+    var movieTitle: String? {
+        return movie?.title
+    }
+
+    var movieTagline: String? {
+        return movie?.tagline
+    }
+
+    var movieOverview: String? { movie?.overview }
+    
     var hasAppeared = false
 
     //MARK: Lifecycle
